@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<head>
+    <title>ask485</title>
+    <link rel="stylesheet" type="text/css" href="static/css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+</head>
+<body>
+<div class="feed">
+<div class="ask485">ask485</div>
+
+
+<div class="search_bar">
+<form action="/" method="GET">
+  <div><input type="text" name="q" value="{{ query }}" /></div>
+  <div>
+      <div class="pagerank_weight">Pagerank Weight</div>
+        <input id="weight" type="range" name="w" min="0" max="1" step="0.01" value="{{ weight }}" />
+        <div><span id ="demo"></span></div>
+  </div>
+  <input type="submit" value="Search"/>
+</form>
+</div>
+<script>
+    let slider = document.getElementById("weight");
+    let output = document.getElementById("demo");
+    output.innerHTML = slider.value;
+
+slider.oninput = function() {
+  output.innerHTML = this.value;
+}
+</script>
+
+<div class="docs">
+{% if show_search %}
+    <!--------------Show Search Results--------------->
+    {% if search_results %}
+    {% for search_result in search_results %}
+
+        <!--------------Doc Title------------->
+        <div class="doc_title">
+            <a href = {{search_result.doc_url }}>{{ search_result.doc_title }}</a>
+        </div>
+        <!-------------Doc Summary------------>
+        <div class="doc_summary">
+            {% if search_result.doc_summary %}
+                {{ search_result.doc_summary }}
+            {% else %}
+                No summary available
+            {% endif %}
+
+        </div>
+        <div class="doc_url">
+            <!--------------Doc URL--------------->
+        <a class="doc_url" href="{{ search_result.doc_url }}">
+            {% if search_result.doc_url %}
+                {{ search_result.doc_url }}
+            {% else %}
+                No url available
+            {% endif %}
+        </a>
+        </div>
+    {% endfor %}
+    {% else %}
+        <!---------------No Search Results---------------->
+        <div class="no_results">No search results found!</div>
+    {% endif %}
+{%  endif %}
+</div>
+</div>
+</body>
+
